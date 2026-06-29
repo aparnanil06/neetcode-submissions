@@ -1,0 +1,23 @@
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        nums.sort()
+        for i, a in enumerate(nums):
+            if a > 0:
+                break
+            if i > 0 and a == nums[i - 1]: #skip duplicates
+                continue
+            l, r = i + 1, len(nums) - 1
+            while l < r:
+                answer = a + nums[l] + nums[r]
+                if answer > 0: #since answer too big, move right boundary back one to reduce answer
+                    r -= 1
+                elif answer < 0: #since answer too small, move left boundary up one to increase answer
+                    l += 1
+                else:
+                    res.append([a, nums[l], nums[r]])
+                    l += 1 #continue to find other possible triples for that i value
+                    r -= 1
+                    while nums[l] == nums[l - 1] and l < r: #skip duplicates
+                        l += 1
+        return res
